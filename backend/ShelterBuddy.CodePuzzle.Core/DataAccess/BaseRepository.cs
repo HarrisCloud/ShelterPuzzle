@@ -1,11 +1,10 @@
 ﻿using System.Reflection;
-using System.Text.Json.Nodes;
 using Newtonsoft.Json;
 using ShelterBuddy.CodePuzzle.Core.Entities;
 
 namespace ShelterBuddy.CodePuzzle.Core.DataAccess;
 
-public class BaseRepository<T, TKey> : IRepository<T, TKey>
+public abstract class BaseRepository<T, TKey> : IRepository<T, TKey>
     where T : BaseEntity<TKey>, IAuditable
     where TKey : IEquatable<TKey>
 {

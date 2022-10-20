@@ -13,5 +13,17 @@ public class Animal : BaseEntity<Guid>
     public int? AgeMonths { get; set; }
     public int? AgeWeeks { get; set; }
 
-    public string AgeText => string.Empty;
+    public Animal()
+    {
+
+    }
+
+    public Animal(Guid id)
+    {
+        Id = id;
+    }
+
+    public string AgeText => (AgeYears == null || AgeWeeks == null)
+        ? "Age Not Provided" 
+        : $"{ AgeYears } years {AgeWeeks} weeks";
 }

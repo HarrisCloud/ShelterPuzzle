@@ -6,7 +6,9 @@ public class BaseEntity<TKey> : IIdentifiable<TKey>, IAuditable, ISoftDeletable
     public TKey Id { get; set; }
     
     public DateTimeOffset CreatedAt { get; private set; }
+
     public string? CreatedBy { get; private set; }
+    
     public void Created(IAuditStamper stamper)
     {
         CreatedAt = stamper.Now;
