@@ -19,4 +19,20 @@ public class AnimalTests
         
         animal.AgeText.ShouldBe($"{ageYears} years {ageWeeks} weeks");
     }
+
+    [Theory]
+    [InlineData(null, 3)]
+    [InlineData(1, null)]
+    [InlineData(null, null)]
+    public void Animal_AgeText_IsNotValid(int? ageYears, int? ageWeeks)
+    {
+        var animal = new Animal
+        {
+            AgeYears = ageYears,
+            AgeWeeks = ageWeeks
+        };
+
+        animal.AgeText.ShouldBe("Age not provided");
+    }
+
 }

@@ -15,7 +15,7 @@ public class Animal : BaseEntity<Guid>
 
     public Animal()
     {
-
+        Id = Guid.NewGuid();
     }
 
     public Animal(Guid id)
@@ -24,6 +24,6 @@ public class Animal : BaseEntity<Guid>
     }
 
     public string AgeText => (AgeYears == null || AgeWeeks == null)
-        ? "Age Not Provided" 
+        ? "Age not provided" 
         : $"{ AgeYears } years {AgeWeeks} weeks";
 }

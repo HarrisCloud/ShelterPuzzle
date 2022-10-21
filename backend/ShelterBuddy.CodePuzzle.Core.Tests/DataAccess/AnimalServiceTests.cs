@@ -9,41 +9,44 @@ namespace ShelterBuddy.CodePuzzle.Core.Tests.DataAccess
 {
     public class AnimalServiceTests
     {
-        public class Init
-        {
-            public IAnimalRepository animalRepository { get; set; }
-
-            public Init()
-            {
-                animalRepository = Substitute.For<IAnimalRepository>();
-            }
-
-            public AnimalService GetSut()
-            {
-                return new AnimalService(animalRepository);
-            }
-        }
-
         [Fact]
-        public void New_CanLoadData_IsValid()
+        public void GetAll_ContainsData_IsValid()
         {
-            var init = new Init();
-            var result = (
-                new List<Animal>() 
-                { 
-                    new Animal() { AgeYears = 2, AgeWeeks = 5, Name = "Bob" } 
+            var allAnimals = (
+                new List<Animal>()
+                {
+                    new Animal() { AgeYears = 3, AgeWeeks = 1, Name = "Bob" },
+                    new Animal() { AgeYears = 2, AgeWeeks = 5, Name = "Mary" },
                 }).AsQueryable();
-
-            init.animalRepository
-                .GetAll()
-                .ReturnsForAnyArgs(result);
             
-            var sut = init.GetSut();
+            var animalRepository = Substitute.For<IAnimalRepository>();
+            animalRepository
+                .GetAll()
+                .ReturnsForAnyArgs(allAnimals);
+
+            var sut = new AnimalService(animalRepository);
 
             var animals = sut.GetAll();
             animals.ShouldNotBeEmpty();
-            animals.Count().ShouldBe(1);
+            animals.Count().ShouldBe(2);
             animals.ShouldContain(animal => animal.Name == "Bob");
         }
+
+        [Fact]
+        public void GetAll_HasNoData_IsValid()
+        {
+            var allAnimals = (new List<Animal>()).AsQueryable();
+
+            var animalRepository = Substitute.For<IAnimalRepository>();
+            animalRepository
+                .GetAll()
+                .ReturnsForAnyArgs(allAnimals);
+
+            var sut = new AnimalService(animalRepository);
+
+            var animals = sut.GetAll();
+            animals.ShouldBeEmpty();
+        }
+
     }
 }
